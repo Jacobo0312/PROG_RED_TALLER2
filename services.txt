@@ -1,0 +1,10 @@
+
+
+*Crear usuario-
+*Crear orden
+*Crear producto
+*Agregar producto
+*Eliminar producto de orden
+*Cambiar estado de la orden
+*findById -> Order
+*listOrderById -> User
