@@ -1,10 +1,31 @@
 
 
-*Crear usuario-
-*Crear orden
-*Crear producto
-*Agregar producto
-*Eliminar producto de orden
+
+
+
+
 *Cambiar estado de la orden
 *findById -> Order
 *listOrderById -> User
+
+
+
+    {
+    "createDate":4000,
+    "payDate":4000,
+    "paid":true,
+    "user":{
+        "id":1006107372
+    },
+    "products":[
+        {
+        "product":{"id":1,"name":"Jamon","price":3000},
+        "quantity":10
+        }
+    ]
+    }
+
+
+
+
+

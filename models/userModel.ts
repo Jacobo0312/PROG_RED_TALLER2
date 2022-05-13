@@ -11,7 +11,7 @@ export const findOne = (userId: number, callback: Function) => {
     
     const row = (<RowDataPacket> result)[0];
     const user: User =  {
-      id: row.id,
+      id: row.id
     }
     callback(null, user);
   });

@@ -54,6 +54,21 @@ productRouter.post("/", async (req: Request, res: Response) => {
 });
 
 
+//delete
+productRouter.delete("/:id", async (req: Request, res: Response) => {
+    const productId: number = Number(req.params.id);
+    productModel.deleteOne(productId, (err: Error, product: Product) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "data": product });
+    }
+    )
+}
+);
+
+
+
 
 
 export { productRouter };
