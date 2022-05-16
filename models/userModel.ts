@@ -17,15 +17,14 @@ export const findOne = (userId: number, callback: Function) => {
   });
 }
 
-
 export const create = (user: User, callback: Function) => {
-  const queryString = `INSERT INTO taller2.users (id) VALUES (?);`
-
-  db.query(queryString, user.id, (err, result) => {
+  const queryString = `INSERT INTO taller2.users (id) VALUES (${user.id});`
+  db.query(queryString, (err, result) => {
     if (err) {callback(err)}
     callback(null, user);
   });
 }
+
 
 
 
@@ -47,6 +46,21 @@ export const findAll = (callback: Function) => {
   callback(null, users);
 });
 }
+
+
+
+
+//List orders by id
+export const findAllById = (userId: number, callback: Function) => {
+  let queryString = `SELECT * FROM taller2.purcharseorder WHERE user_id = ?;`;
+  db.query(queryString, [userId], (err, result) => {
+      if (err) { callback(err) }
+      callback(null, result);
+  }
+  );
+}
+
+
 
 
 

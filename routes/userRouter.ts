@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import * as userModel from "../models/userModel";
 import { User } from "../types/User";
+import { Order } from "../types/Order";
 const userRouter = express.Router();
 
 
@@ -29,7 +30,7 @@ userRouter.get("/all", (req: Request, res: Response) => {
 );
 
 
-
+/*
 userRouter.get("/:id", async (req: Request, res: Response) => {
     const userId: number = Number(req.params.id);
     userModel.findOne(userId, (err: Error, user: User) => {
@@ -39,19 +40,35 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
         res.status(200).json({ "data": user });
     })
 });
+*/
 
 
 userRouter.post("/", async (req: Request, res: Response) => {
     const user: User = req.body;
-    console.log(req.body);
     userModel.create(user, (err: Error, user: User) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
         res.status(200).json({ "data": user });
     }
+    
     )
 });
+
+
+//List orders by id
+
+userRouter.get("/:id", async (req: Request, res: Response) => {
+    const user_id: number = Number(req.params.id);
+    userModel.findAllById(user_id, (err: Error, order: Order) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "data": order });
+    }
+    )
+}
+);
 
 
 

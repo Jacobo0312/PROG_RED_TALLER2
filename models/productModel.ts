@@ -39,12 +39,6 @@ export const deleteOne = (product_id: number, callback: Function) => {
 }
 
 
-
-
-
-
-
-
 export const findAll = (callback: Function) => {
     const queryString = `
   SELECT * FROM taller2.products`

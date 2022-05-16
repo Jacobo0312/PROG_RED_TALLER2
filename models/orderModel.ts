@@ -12,6 +12,12 @@ export const create = (order: Order, callback: Function) => {
     order.id = uuid();
     //------------------
     let queryString = `INSERT INTO taller2.purcharseorder (id,createDate,payDate,paid,user_id) VALUES (?,?,?,?,?);`;
+    
+    
+    order.createDate= new Date().valueOf();
+    if (order.paid) {
+        order.payDate=order.createDate;
+    }
 
     db.query(queryString, [order.id, order.createDate, order.payDate, order.paid, order.user.id], (err, result) => {
         if (err) { callback(err) }
@@ -22,7 +28,7 @@ export const create = (order: Order, callback: Function) => {
 
     const products: ProductOrder[] = order.products;
 
-    
+
     products.forEach(productOrder => {
         queryString = `INSERT INTO taller2.productorder (productOrder_id, product_id, product_quantity) VALUES (?,?,?);`;
         db.query(queryString, [order.id, productOrder.product.id, productOrder.quantity], (err, result) => {
@@ -33,7 +39,46 @@ export const create = (order: Order, callback: Function) => {
 
 
 
+
 }
+
+//Change paid to true
+
+
+export const updatePaid = (orderId: string, callback: Function) => {
+    let queryString = `UPDATE taller2.purcharseorder SET payDate = ?,paid = true WHERE id = ?;`;
+    const time=new Date().valueOf();
+    db.query(queryString, [time,orderId], (err, result) => {
+        if (err) { callback(err) }
+        callback(null, result);
+    }
+    );
+}
+
+
+export const findOne = (orderId: string, callback: Function) => {
+    let queryString = `SELECT * FROM taller2.purcharseorder WHERE id = ? LIMIT 1;`;
+
+    db.query(queryString, [orderId], (err, result) => {
+        if (err) { callback(err) }
+        const row = (<RowDataPacket>result)[0];
+        const order: Order = {
+            id: row.id,
+            createDate: row.createDate,
+            payDate: row.payDate,
+            paid: row.paid,
+            user: {
+                id: row.user_id
+            },
+            products: []
+
+        }
+        callback(null, order);
+    }
+    );
+}
+
+
 
 
 
