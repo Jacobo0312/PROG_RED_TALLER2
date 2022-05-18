@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
+import { REPL_MODE_STRICT } from "repl";
 import * as orderModel from "../models/orderModel";
 import { Order } from "../types/Order";
+import { ProductOrder } from "../types/ProductOrder";
 const orderRouter = express.Router();
 
 
@@ -23,19 +25,20 @@ orderRouter.post("/", async (req: Request, res: Response) => {
 
 
 //Find one
-orderRouter.get("/order/:id", async (req: Request, res: Response) => {
+orderRouter.get("/:id", async (req: Request, res: Response) => {
     const orderId: string = req.params.id;
     orderModel.findOne(orderId, (err: Error, order: Order) => {
         if (err) {
+           
             return res.status(500).json({ "message": err.message });
         }
-
         res.status(200).json({ "data": order });
     }
     )
 }
-);
-    
+)
+
+
 
 
 
@@ -53,6 +56,40 @@ orderRouter.put("/paid/:id", async (req: Request, res: Response) => {
 );
 
 
+//Add product to order
+orderRouter.put("/addProduct/:id", async (req: Request, res: Response) => {
+    const orderId: string = String(req.params.id);
+    const productOrder: ProductOrder = req.body;
+
+    orderModel.addProduct(orderId, productOrder, (err: Error, order: Order) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "data": order });
+    }
+    )
+}
+);
+
+
+//Delete product to order
+orderRouter.put("/deleteProduct/:id", async (req: Request, res: Response) => {
+    const orderId: string = String(req.params.id);
+    const productOrder: ProductOrder = req.body;
+
+    orderModel.deleteProduct(orderId, productOrder, (err: Error, order: Order) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "data": order });
+    }
+    )
+}
+);
+
+
+
+
 
 
 
@@ -64,17 +101,11 @@ orderRouter.get("/all", async (req: Request, res: Response) => {
             return res.status(500).json({ "message": err.message });
         }
         res.status(200).json({ "data": orders });
-        
+
     }
     )
 }
 );
-
-
-
-
-
-
 
 
 
