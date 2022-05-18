@@ -95,7 +95,7 @@ orderRouter.put("/deleteProduct/:id", async (req: Request, res: Response) => {
 
 
 
-orderRouter.get("/all", async (req: Request, res: Response) => {
+orderRouter.get("", async (req: Request, res: Response) => {
     orderModel.findAll((err: Error, orders: Order[]) => {
         if (err) {
             return res.status(500).json({ "message": err.message });
